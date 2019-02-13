@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 
-
 class Role(models.Model):
     title = models.CharField(max_length=250, unique=True)
     created_at = models.DateTimeField(default=timezone.now)

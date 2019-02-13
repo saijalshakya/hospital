@@ -13,10 +13,39 @@
           </ol>
         </section>
         <section class="content container-fluid">
+            <div class="box">
+                <div class="box-header" style="display:flex; flex-flow: row wrap;">
+                  <h3 class="box-title">Data Table With Basic Info</h3>
+                  <div class="float-right"> <a href="{% url 'dashboard:addUsers' %}"> <button class="btn btn-primary btn-sm float-right">+Add</button></a></div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                      <th>S.No.</th>
+                      <th>Name</th>
+                      <th>Image</th>
+                      <th>Option</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                      <tr>
+                          <td>{{forloop.counter}}</td>
+                          <td>{{user.fn}} {{user.ln}}</td>
+                          <td><img src=http://localhost:8000/{{user.image}} alt="{{user.fn}} {{user.ln}}"></td>
+                          <td>X</td>
+                      </tr>
+                    {%endfor%}
+                    
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.box-body -->
+              </div>
             <ul>
-                {% for user in users %}
-                    <li>{{user.username}}</li>
-                {%endfor%}
+                
             </ul>
         </section>
 </div>

@@ -16,7 +16,7 @@ class Nav extends Component {
 			<div class="row">
 				<div class="col-lg-3 col-6">
 					<div id="logo_home">
-						<h1><a href="../findoctor/index.html" title="Findoctor">Findoctor</a></h1>
+						<h1><a href="../findoctor/index.html" title="Findoctor">Hospital</a></h1>
 					</div>
 				</div>
 				<div class="col-lg-9 col-6">
@@ -27,17 +27,8 @@ class Nav extends Component {
 					<nav id="menu" class="main-menu">
 						<ul>
 							<li>
-								<span><a href="#0">Home</a></span>
-								<ul>
-                                <NavLink to="/">Home</NavLink>
-									<li><a href="../findoctor/index.html">Home Default</a></li>
-									<li><a href="../findoctor/index-2.html">Home Version 2</a></li>
-									<li><a href="../findoctor/index-3.html">Home Version 3</a></li>
-									<li><a href="../findoctor/index-4.html">Home Version 4</a></li>
-									<li><a href="../findoctor/index-7.html">Home with Map</a></li>
-                                    <li><a href="../findoctor/index-6.html">Revolution Slider</a></li>
-									<li><a href="../findoctor/index-5.html">With Cookie Bar (EU law)</a></li>
-								</ul>
+                                <span><NavLink to="/">Home</NavLink></span>
+									
 							</li>
 							<li>
 								<span><a href="#0">Pages</a></span>
