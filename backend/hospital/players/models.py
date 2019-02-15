@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
+
 
 class Role(models.Model):
     title = models.CharField(max_length=250, unique=True)
@@ -14,6 +16,9 @@ class Role(models.Model):
     def delete(self):
         self.soft = 0
         self.save()
+
+    def get_absolute_url(self):
+        return reverse('dashboard:index')
 
     def __str__(self):
         return self.title
