@@ -2,14 +2,15 @@ from django.shortcuts import render
 from players.models import Players, Role
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-# Create your views here.
+from django.urls import reverse_lazy
 
-
+# Landing page /dashboard
 class IndexView(generic.ListView):
     template_name = "dashboard/pages/index.html"
     def get_queryset(self):
             return ''
 
+# User Landing page /dashboard/users
 class UserView(generic.ListView):
     context_object_name = "users"
 
@@ -18,30 +19,22 @@ class UserView(generic.ListView):
     def get_queryset(self):
         return Players.objects.all()
 
-class UserCreateView(generic.CreateView):
-    pass
+# # User Detail page /dashboard/users/n
+# class UserDetailView(generic.DetailView):
+#     model = Players
+#     template_name = "dashboard/pages/users/detail.html"
 
-class create(CreateView):
+# User Create page /dashboard/users/create
+class UserCreate(CreateView):
     model = Players
     fields = ['fn','ln','address','phone','email','password','username','image','role']
 
-def addUsers(request):
-    if request.method == 'POST':
-        fn = request.POST.get("fn")
-        ln = request.POST.get("ln")
-        address = request.POST.get("address")
-        phone = request.POST.get("phone")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        username = request.POST.get("username")
-        image = request.POST.get("image")
-        user = Players.objects.create(fn=fn,ln=ln,address=address,phone=phone,email=email,password=password,username=username,image=image)
-        return render(request, "dashboard/pages/users/a.html",{"a":a})
-    else:
-        roles = Role.objects.all()
-        return render(request, "dashboard/pages/users/create.html", context={"roles":roles})
-
-
-class UserCreate(CreateView):
+# User Update page /dashboard/users
+class UserUpdate(UpdateView):
     model = Players
-    fields = ['fn','ln','address','phone','image']
+    fields = ['fn','ln','address','phone','email','password','username','image','role']
+
+# User Delete page
+class UserDelete(DeleteView):
+    model = Players
+    success_url = reverse_lazy('dashboard:users')
