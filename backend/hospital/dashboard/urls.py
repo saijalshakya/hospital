@@ -42,5 +42,11 @@ urlpatterns = [
      # Blogs update view url dashboard/blogs/n/delete
     url(r'^blogs/(?P<pk>[0-9]+)/delete$', views.BlogDelete.as_view(), name="blog-delete"),
 
-    url(r'^blogs/status/(?P<id>[0-9]+)/$', views.BlogStatus, name="blog-status")
+    url(r'^blogs/status/(?P<id>[0-9]+)/$', views.BlogStatus, name="blog-status"),
+
+    # Blogs index view url dashboard/blogs/n
+    url(r'^company/$', views.CompanyIndex, name="company-index"),
+
+    # company view url dashboard/blogs/n
+    url(r'^company/update/(?P<pk>[0-9]+)/$', views.CompanyDetailUpdate.as_view(), name="company-update")
 ]

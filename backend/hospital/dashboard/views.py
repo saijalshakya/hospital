@@ -2,6 +2,7 @@ from django.shortcuts import render
 from players.models import Players, Role
 from disease.models import Disease,Doctor
 from blogs.models import Blogs
+from company.models import Company
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -63,7 +64,7 @@ class DiseaseCreate(CreateView):
 # Disease Update page /dashboard/users
 class DiseaseUpdate(UpdateView):
     model = Disease
-    fields = ['name','found','summary','doctor','status', 'level']
+    fields = ['name',' ','summary','doctor','status', 'level']
 
 # Disease Delete page
 class DiseaseDelete(DeleteView):
@@ -123,3 +124,22 @@ def BlogStatus(request, id):
 
     blog.save()
     return redirect("/admin/blogs/")
+
+# Company Details
+def CompanyIndex(request):
+    company = Company.objects.all()[0]
+    return render(request, "dashboard/pages/company/index.html", {"company":company})
+
+# Company Detail Update
+def a(request):
+    name = request.get("name")
+    company = Company.objects.all()
+    company.name = name
+    company.save()
+    return redirect("/admin/company/")
+
+
+# Disease Update page /dashboard/users
+class CompanyDetailUpdate(UpdateView):
+    model = Company
+    fields = ['name','address','phone1','phone2','email','facebook','instagram','twitter','youtube','fax','pobox']
