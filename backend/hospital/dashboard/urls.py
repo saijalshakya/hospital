@@ -27,5 +27,20 @@ urlpatterns = [
     url(r'^diseases/(?P<pk>[0-9]+)/$', views.DiseaseUpdate.as_view(), name="disease-update"),
 
      # disease update view url dashboard/disease/n/delete
-    url(r'^diseases/(?P<pk>[0-9]+)/delete$', views.DiseaseDelete.as_view(), name="disease-delete")
+    url(r'^diseases/(?P<pk>[0-9]+)/delete$', views.DiseaseDelete.as_view(), name="disease-delete"),
+
+    url(r'^diseases/status/(?P<id>[0-9]+)/$', views.DiseaseStatus, name="disease-status"),
+
+
+    # Blogs index view
+    url(r'blogs/$', views.BlogView.as_view(), name="blogs"),
+    url(r'blogs/create$', views.BlogCreate.as_view(), name="blog-create"),
+    
+    # Blogs update view url dashboard/blogs/n
+    url(r'^blogs/(?P<pk>[0-9]+)/$', views.BlogUpdate.as_view(), name="blog-update"),
+
+     # Blogs update view url dashboard/blogs/n/delete
+    url(r'^blogs/(?P<pk>[0-9]+)/delete$', views.BlogDelete.as_view(), name="blog-delete"),
+
+    url(r'^blogs/status/(?P<id>[0-9]+)/$', views.BlogStatus, name="blog-status")
 ]

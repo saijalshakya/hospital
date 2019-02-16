@@ -8,5 +8,5 @@ class DiseaseSerializer(serializers.ModelSerializer):
     doctor = DoctorSerializer(many=True)
     
     class Meta:
-        model = Disease
         fields = "__all__"
+        model = Disease

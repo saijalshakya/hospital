@@ -12,12 +12,17 @@ found_choice = (
     ('w','Whole Nepal')
 )
 
+status_choice = (
+    ('1', 'Publish'),
+    ('0', 'Unpublished'),
+)
+
 class Disease(models.Model):
     name = models.CharField(max_length=500, null=False)
     found = models.CharField(max_length=1, choices=found_choice, null=True)
     summary = models.CharField(max_length=500, null=False)
     created_at = models.DateTimeField(default=timezone.now)
-    status = models.BooleanField(default=0)
+    status = models.CharField(max_length=1, choices=status_choice, null=True)
     doctor = models.ManyToManyField(Doctor)
 
     def publish(self):
