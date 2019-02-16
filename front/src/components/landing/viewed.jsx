@@ -44,7 +44,7 @@ export default class Viewed extends Component {
             <div>
                 <div className="row">
                     <div className="col-md-8">
-                        <div class="bg_color_1">
+                        {/* <div class="bg_color_1">
                             <div class="container margin_120_95">
                                 <div className="doctor-view">
                                     <div class="main_title">
@@ -61,6 +61,21 @@ export default class Viewed extends Component {
                                         </div>
                                         ))
                                     }
+                                </div>
+                            </div>
+                        </div> */}
+                        <div class="bg_color_1">
+                            <div class="container margin_120_95">
+                                <h2>Welcome</h2>
+                                <hr/>
+                                <div className="box">
+                                    <h6  class="text-justify font-weight-normal">The history of private hospital in Nepal dates back to late 1980's .After the people's popular movement 1990 AD. There was mushrooming of private hospitals or nursing homes. Nearing to people popular movement 2062 BS (April,2006 AD) ,There was sprouting yet another hospital Called Alka Hospital in the heart of the lalitpur district .Question is : Is the hospital different from others ? Or why do people from valley need additional Hospital like this ?
+
+To answer this question let us go a deeper down to its conception and the path it has taken till it took the shape of the hospital.</h6>
+                                <br/>
+                                <br/>
+                                <button className="btn btn-primary btn-lg">Read More ></button>
+                                <a href="http://www.alkahospital.com/uploads/files/Alkahospital_Rate_list_01042074.pdf" target="_blank"><button className="btn btn-primary btn-lg">Price List</button></a>
                                 </div>
                             </div>
                         </div>
