@@ -17,12 +17,20 @@ status_choice = (
     ('0', 'Unpublished'),
 )
 
+level_choice = (
+    ('1', 'Dangerouse'),
+    ('2', 'Mid Range'),
+    ('0', 'Normal'),
+)
+
+
 class Disease(models.Model):
     name = models.CharField(max_length=500, null=False)
     found = models.CharField(max_length=1, choices=found_choice, null=True)
     summary = models.CharField(max_length=500, null=False)
     created_at = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=1, choices=status_choice, null=True)
+    level = models.CharField(max_length=1, choices=level_choice, null=True)
     doctor = models.ManyToManyField(Doctor)
 
     def publish(self):

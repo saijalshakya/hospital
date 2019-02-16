@@ -27,7 +27,6 @@
                       <th>S.No.</th>
                       <th>Name</th>
                       <th>Status</th>
-                      {{m}}
                       <th>Found</th>
                       <th>Option</th>
                     </tr>
@@ -36,7 +35,15 @@
                     {% for disease in diseases %}
                       <tr>
                           <td>{{forloop.counter}}</td>
-                          <td>{{disease.name}}</td>
+                          <td>
+                            {% if disease.level == "1" %}
+                              <span style="color:red">{{disease.name}}</span>
+                            {% elif disease.level == "2" %}
+                              <span style="color:yellow">{{disease.name}}</span>
+                            {% else %}
+                              <span style="color:green">Normal{{disease.name}}</span>
+                            {% endif %}
+                          </td>
                           <td>
                             {% if disease.status == "1" %}
                               <form action="{% url 'dashboard:disease-status' disease.id %}">

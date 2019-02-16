@@ -58,12 +58,12 @@ class DiseaseView(generic.ListView):
 # Disease Create page /dashboard/users/create
 class DiseaseCreate(CreateView):
     model = Disease
-    fields = ['name','found','summary','doctor','status']
+    fields = ['name','found','summary','doctor','status','level']
 
 # Disease Update page /dashboard/users
 class DiseaseUpdate(UpdateView):
     model = Disease
-    fields = ['name','found','summary','doctor','status']
+    fields = ['name','found','summary','doctor','status', 'level']
 
 # Disease Delete page
 class DiseaseDelete(DeleteView):
