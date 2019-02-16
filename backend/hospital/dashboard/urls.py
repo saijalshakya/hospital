@@ -16,5 +16,16 @@ urlpatterns = [
     url(r'^users/(?P<pk>[0-9]+)/$', views.UserUpdate.as_view(), name="user-update"),
 
      # user update view url dashboard/users/n/delete
-    url(r'^users/(?P<pk>[0-9]+)/delete$', views.UserDelete.as_view(), name="user-delete")
+    url(r'^users/(?P<pk>[0-9]+)/delete$', views.UserDelete.as_view(), name="user-delete"),
+
+
+    # Disease index view
+    url(r'diseases/$', views.DiseaseView.as_view(), name="diseases"),
+    url(r'diseases/create$', views.DiseaseCreate.as_view(), name="disease-create"),
+    
+    # disease update view url dashboard/disease/n
+    url(r'^diseases/(?P<pk>[0-9]+)/$', views.DiseaseUpdate.as_view(), name="disease-update"),
+
+     # disease update view url dashboard/disease/n/delete
+    url(r'^diseases/(?P<pk>[0-9]+)/delete$', views.DiseaseDelete.as_view(), name="disease-delete")
 ]

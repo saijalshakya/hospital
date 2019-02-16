@@ -29,7 +29,7 @@
             <li class="header">HEADER</li>
             <li {% if  request.get_full_path == "/dashboard/" %}   class="active" {% endif %}><a href="{% url 'dashboard:index' %}"><i class="fa fa-link"></i> <span>Home</span></a></li>
             <li {% if  request.get_full_path == "/dashboard/users/" %}   class="active" {% endif %}><a href="{% url 'dashboard:users' %}"><i class="fa fa-link"></i> <span>Users</span></a></li>
-            <li><a href="{% url 'dashboard:users' %}"><i class="fa fa-link"></i> <span>Health Warnings</span></a></li>            
+            <li><a href="{% url 'dashboard:diseases' %}"><i class="fa fa-link"></i> <span>Health Warnings</span></a></li>            
             <li><a href="{% url 'dashboard:users' %}"><i class="fa fa-link"></i> <span>Doctors Info</span></a></li>            
             <li><a href="{% url 'dashboard:users' %}"><i class="fa fa-link"></i> <span>Appointments</span></a></li>            
             <li class="treeview">

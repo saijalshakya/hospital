@@ -1,6 +1,7 @@
 from django.db import models
 from doctor.models import Doctor
 from django.utils import timezone
+from django.urls import reverse
 
 
 
@@ -25,3 +26,6 @@ class Disease(models.Model):
 
     def __str__(self):
         return self.name+"-"+self.found
+
+    def get_absolute_url(self):
+        return reverse('dashboard:diseases')
