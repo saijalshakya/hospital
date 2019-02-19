@@ -9,13 +9,14 @@ from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.contrib import messages
-
+from django.views.generic import TemplateView
+import _pickle as cPickle
+import pickle
 
 # Landing page /dashboard
 class IndexView(generic.ListView):
     template_name = "dashboard/pages/index.html"
-    def get_queryset(self):
-            return ''
+    generic.ListView
 
 # User Landing page /dashboard/users
 class UserView(generic.ListView):
@@ -143,3 +144,16 @@ def a(request):
 class CompanyDetailUpdate(UpdateView):
     model = Company
     fields = ['name','address','phone1','phone2','email','facebook','instagram','twitter','youtube','fax','pobox']
+
+
+class CancerPredictions(generic.ListView):
+    context_object_name = "users"
+    template_name = "dashboard/pages/cancer/index.html"
+    ml = pickle.load(open('/home/saijal/Desktop/model.pkl','rb'))
+    output['oo'] = ml.predict(50,205.40,656.3,545.44,65.500)
+    res = ml
+    def get_queryset(self):
+        return res
+
+       
+

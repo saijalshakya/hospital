@@ -31,6 +31,7 @@
             <li {% if  request.get_full_path == "/admin/users/" %}   class="active" {% endif %}><a href="{% url 'dashboard:users' %}"><i class="fa fa-link"></i> <span>Users</span></a></li>
             <li {% if  request.get_full_path == "/admin/diseases/" %}   class="active" {% endif %}><a href="{% url 'dashboard:diseases' %}"><i class="fa fa-link"></i> <span>Health Warnings</span></a></li>            
             <li {% if  request.get_full_path == "/admin/blogs/" %}   class="active" {% endif %}><a href="{% url 'dashboard:blogs' %}"><i class="fa fa-link"></i> <span>Blogs</span></a></li>            
+            <li {% if  request.get_full_path == "/admin/blogs/" %}   class="active" {% endif %}><a href="{% url 'dashboard:cancer' %}"><i class="fa fa-link"></i> <span>Cancer</span></a></li>            
             <li><a href="{% url 'dashboard:users' %}"><i class="fa fa-link"></i> <span>Doctors Info</span></a></li>            
             <li><a href="{% url 'dashboard:users' %}"><i class="fa fa-link"></i> <span>Appointments</span></a></li>            
             <li class="treeview">
