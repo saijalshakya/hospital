@@ -6,8 +6,16 @@ Python Api Doc
 >Backend
 1. localhost:8000/doc (api root)
 
+> Model
+
+1. dashboard app->static->model.pkl
+
+> Company Information
+
+Insert data manually first.
+
 React JS
->front
+>Front
 1. npm install
 2. npm start
 
