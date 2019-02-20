@@ -7,7 +7,7 @@ app_name = "dashboard"
 urlpatterns = [
     path('', views.IndexView.as_view(), name="index"),
     url(r'users/$', views.UserView.as_view(), name="users"),
-    path('cancer/', views.CancerPredictions.as_view(), name="cancer"),
+    # path('cancer/', views.CancerPredictions.as_view(), name="cancer"),
     url(r'users/create$', views.UserCreate.as_view(), name="user-create"),
     
     # # user detail view url dashboard/users/details/n

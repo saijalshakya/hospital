@@ -16,7 +16,8 @@ import pickle
 # Landing page /dashboard
 class IndexView(generic.ListView):
     template_name = "dashboard/pages/index.html"
-    generic.ListView
+    def get_queryset(self):
+        return ''
 
 # User Landing page /dashboard/users
 class UserView(generic.ListView):
@@ -146,14 +147,14 @@ class CompanyDetailUpdate(UpdateView):
     fields = ['name','address','phone1','phone2','email','facebook','instagram','twitter','youtube','fax','pobox']
 
 
-class CancerPredictions(generic.ListView):
-    context_object_name = "users"
-    template_name = "dashboard/pages/cancer/index.html"
-    ml = pickle.load(open('/home/saijal/Desktop/model.pkl','rb'))
-    output['oo'] = ml.predict(50,205.40,656.3,545.44,65.500)
-    res = ml
-    def get_queryset(self):
-        return res
+# class CancerPredictions(generic.ListView):
+#     context_object_name = "users"
+#     template_name = "dashboard/pages/cancer/index.html"
+#     ml = pickle.load(open('/home/saijal/Desktop/model.pkl','rb'))
+#     output['oo'] = ml.predict(50,205.40,656.3,545.44,65.500)
+#     res = ml
+#     def get_queryset(self):
+#         return res
 
        
 
