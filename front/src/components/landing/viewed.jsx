@@ -98,7 +98,7 @@ To answer this question let us go a deeper down to its conception and the path i
                 <div className="row">
                    <div className="col-md-12">
                    <div class="bg_color_1">
-                            <div class="container margin_120_95">
+                            <div class="container">
                                 <div className="doctor-view">
                                     <div class="main_title">
                                         <h2>Most Viewed doctors</h2>
@@ -142,6 +142,39 @@ To answer this question let us go a deeper down to its conception and the path i
                             </div>
                         </div>
                    </div>
+                </div>
+                <br/>
+                <br/>
+                <div className="card card-body bg-light">
+                    <div class="container">
+                        <div class="main_title">
+                            <h2>Discover the <strong>online</strong> appasdsadointment!</h2>
+                            <p>Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat cu pri. In eum omnes molestie. Sed ad debet scaevola, ne mel.</p>
+                        </div>
+                        <div class="row add_bottom_30">
+                            <div class="col-lg-4">
+                                <div class="box_feat" id="icon_1">
+                                    <span></span>
+                                    <h3>Find a Doctor</h3>
+                                    <p>Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat cu pri. In eum omnes molestie.</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="box_feat" id="icon_2">
+                                    <span></span>
+                                    <h3>View profile</h3>
+                                    <p>Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat cu pri. In eum omnes molestie.</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="box_feat" id="icon_3">
+                                    <h3>Book a visit</h3>
+                                    <p>Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat cu pri. In eum omnes molestie.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-center"><a href="../findoctor/list.html" class="btn_1 medium">Find Doctor</a></p>
+                    </div>
                 </div>
             </div>
             );
