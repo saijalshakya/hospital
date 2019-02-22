@@ -1,0 +1,93 @@
+{% extends "front/master.html" %}
+{% block content %}
+<main>
+		<div id="breadcrumb">
+			<div class="container">
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#">Category</a></li>
+					<li>Page active</li>
+				</ul>
+			</div>
+		</div>
+		<!-- /breadcrumb -->
+		<div class="container margin_60">
+			<div class="main_title">
+				<h1>Our events</h1>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+                    <article class="blog wow bounce">
+                        <div class="row ">
+                            <div class="col-md-4">
+                                <figure>
+                                    <a href="{{ events.image.url }}" target="_blank"><img src="{{ events.image.url }}"  alt=""><div class="preview"></div></a>
+                                </figure>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="post_info">
+                                    <small>{{ events.created_at }}</small>
+                                    <h3><a href="../findoctor/blog-post.html">{{ events.title }}</a></h3>
+                                    <p>{{ events.description }}</p>
+                                    {% comment %} <ul>
+                                        <li>
+                                            <div class="thumb"><img src="../findoctor/img/thumb_blog.jpg" alt=""></div> Jessica Hoops
+                                        </li>
+                                        <li><i class="icon_comment_alt"></i> 20</li>
+                                    </ul> {% endcomment %}
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+					<!-- /article -->
+				</div>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+
+
+        <div class="container margin_60">
+			<div class="main_title">
+				<h1>Related Blogs</h1>
+				<p>You may also like to read these.</p>
+			</div>
+			<div class="row">
+				<div class="col-lg-9">
+                    {% for more in events_more %}
+                        <article class="blog wow bounceIn">
+                            <div class="row no-gutters">
+                                <div class="col-lg-7">
+                                    <figure>
+                                       <a href="{% url 'front:events' more.pk %}"><img src="{{ more.image.url }}" alt=""><div class="preview"></div></a>
+                                    </figure>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="post_info">
+                                        <small>{{ more.created_at }}</small>
+                                        <h3><a href="{% url 'front:events' more.pk %}">{{ more.title }}</a></h3>
+                                        <p>{{ more.intro }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    {% endfor %}
+				</div>
+				<!-- /col -->
+				<aside class="col-lg-3">
+					<div class="widget">
+						<form>
+							<div class="form-group">
+								<input type="text" name="search" id="search" class="form-control" placeholder="Search...">
+							</div>
+							<button type="submit" id="submit" class="btn_1"> Search</button>
+						</form>
+					</div>
+					<!-- /widget -->
+				</aside>
+				<!-- /aside -->
+			</div>
+			<!-- /row -->
+		</div>
+	</main>
+{% endblock  %}

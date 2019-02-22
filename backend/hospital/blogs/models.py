@@ -10,12 +10,18 @@ status_choice = (
     ('0', 'Unpublished'),
 )
 
+type_choice = (
+    ('1', 'News'),
+    ('0', 'Events'),
+)
+
 class Blogs(models.Model):
-    title = models.CharField(max_length=300, null=False)
-    intro = models.CharField(max_length=200,null=False)
-    description = models.CharField(max_length = 1000, null=False)
+    title = models.CharField(max_length=300, null=False, blank = False)
+    intro = models.CharField(max_length=200,null=False, blank = False)
+    description = models.CharField(max_length = 1000, null=False, blank = False)
     image = models.FileField(verbose_name="Blogs Image")
-    status = models.CharField(max_length=1, choices=status_choice, null=True)
+    status = models.CharField(max_length=1, choices=status_choice, null=False, blank = False)
+    types = models.CharField(max_length=1, choices=type_choice, null=False, blank = False)
     created_at = models.DateTimeField(default=timezone.now)
 
     def publish(self):

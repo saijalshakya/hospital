@@ -1,0 +1,9 @@
+<form method="post" action="{% url 'front:search' %}">
+{% csrf_token %}
+    <div id="custom-search-input">
+        <div class="input-group">
+            <input type="text"  autocomplete="off" class=" search-query" name="name" placeholder="Ex. Name, Specialization ....">
+            <input type="submit" class="btn_search" value="Search">
+        </div>
+    </div>
+</form>
