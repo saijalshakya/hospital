@@ -1,7 +1,5 @@
 {% extends 'front/master.html' %}
-{% block company_name %}
-ADS
-{% endblock  %}
+
 {% block content %}
 <main>
 {% load staticfiles %}
@@ -48,7 +46,7 @@ ADS
                                          {% endif %}
                                         
                                         </p>
-                                        <a href="#" class="btn btn-primary btn-sm" style="margin-bottom:5%">Go somewhere</a>
+                                        <a href="{% url 'front:disease' disease.pk %}" class="btn btn-primary btn-sm" style="margin-bottom:5%">Go somewhere</a>
                                     </div>
                                 </div>
                             </div>
@@ -60,6 +58,26 @@ ADS
 				<!-- /carousel -->
 			</div>
 			<!-- /container -->
+		</div>
+		<!-- /Hero -->
+		<div class="container margin_120_95" style="background-color:#5343">
+			<div class="main_title">
+				<h2>People have visited {{t.name}} Doctor mostly</h2>
+				<p>It is all based on User Experience and Recommendation for you.	</p>
+			</div>
+			<div class="row add_bottom_30">
+				<div class="col-lg-4 ">
+					
+				</div>
+				<div class="col-lg-4 text-center">
+					<a href="{% url 'front:recommend' t.id %}">
+					<button class="btn btn-warning">Find {{t.name}} Doctor</button>
+					</a>
+				</div>
+				<div class="col-lg-4 ">
+					
+				</div>
+			</div>
 		</div>
 		<!-- /Hero -->
 		<div class="container margin_120_95">

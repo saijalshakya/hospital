@@ -11,6 +11,14 @@
 			</div>
 		</div>
 		<!-- /breadcrumb -->
+		{% if messages %}
+		<div class="alert alert-success">
+			
+			{% for msg in messages %}
+				{{msg}}
+			{% endfor %}
+		</div>
+		{%endif%}
 		<div class="container margin_60">
 			<div class="row">
 				<div class="col-xl-8 col-lg-8">
@@ -263,7 +271,7 @@
 							</div>
 							<!-- End review-container -->
 							<hr>
-							<div class="text-right"><a href="../findoctor/submit-review.html" class="btn_1">Submit review</a></div>
+							<div class="text-right"><a href="{% url 'front:review' doctor.id %}" class="btn_1">Submit review</a></div>
 						</div>
 					</div>
 					<!-- /section_2 -->
@@ -271,36 +279,37 @@
 				<!-- /col -->
 				<aside class="col-xl-4 col-lg-4" id="sidebar">
 					<div class="box_general_3 booking">
-						<form>
+						<form action = "{% url 'front:booking' %}" method="POST">
+						{% csrf_token %}
 							<div class="title">
+							<input type="hidden" name="doctor" value="{{doctor.pk}}"/>
 							<h3>Book a Visit</h3>
 							<small>Monday to Friday 09.00am-06.00pm</small>
 							</div>
 							<div class="row">
 								<div class="col-6">
 									<div class="form-group">
-										<input class="form-control" type="text" id="booking_date" data-lang="en" data-min-year="2017" data-max-year="2020" data-disabled-days="10/17/2017,11/18/2017">
+										<input class="form-control" type="text" id="booking_date" name="dated" data-lang="en" data-min-year="2017" data-max-year="2020" data-disabled-days="10/17/2017,11/18/2017">
 									</div>
 								</div>
 								<div class="col-6">
 									<div class="form-group">
-										<input class="form-control" type="text" id="booking_time" value="9:00 am">
+										<input class="form-control" type="text" id="booking_time" name="timed" value="9:00 am">
 									</div>
 								</div>
 							</div>
-							<!-- /row -->
 							<ul class="treatments clearfix">
 								{% for service in doctor.service.all %}
                                     <li>
                                         <div class="checkbox">
-                                            <input type="checkbox" class="css-checkbox" id="visit{{forloop.counter}}" name="visit{{forloop.counter}}">
+                                            <input type="checkbox" class="css-checkbox" id="visit{{forloop.counter}}" name="visit" value="{{ service.id }}">
                                             <label for="visit{{forloop.counter}}" class="css-label">{{ service.name }}<strong>{{ service.price }}</strong></label>
                                         </div>
                                     </li>
                                 {% endfor %}
 							</ul>
 							<hr>
-							<a href="../findoctor/booking-page.html" class="btn_1 full-width">Book Now</a>
+							<button type="submit" class="btn_1 full-width">Book Now</button>
 						</form>
 					</div>
 					<!-- /box_general -->

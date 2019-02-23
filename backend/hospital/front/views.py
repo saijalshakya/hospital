@@ -1,10 +1,15 @@
 from django.shortcuts import render,get_object_or_404
 from disease.models import Disease, Doctor
+from doctor.models import Service, Doctor, Booking, Type, Review
 from blogs.models import Blogs
 from django.db.models import Q
 from company.models import Company
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib import messages
+from django.http import HttpResponseRedirect
 
-# Create your views here.
+
+
 
 def index(request):
     diseases = Disease.objects.filter(status="1")
@@ -12,7 +17,12 @@ def index(request):
     events = Blogs.objects.filter(status="1", types="0")
     doctors = Doctor.objects.filter(status="1")
     company = Company.objects.all()
-    return render(request, 'front/index.html', {"diseases":diseases,"news":news, "events":events, "doctors":doctors, "company":company})
+    t = Type.objects.order_by("-counter").all()[0]
+    return render(request, 'front/index.html', {"t":t,"diseases":diseases,"news":news, "events":events, "doctors":doctors, "company":company})
+
+def recommend(request, id):
+    doctor = Doctor.objects.filter(type__id=id)
+    return render(request, "front/detail/doctorsList.html", {"doctor":doctor})
 
 
 def search(request):
@@ -43,3 +53,64 @@ def events(request, pk):
 def list(request):
     doctor = Doctor.objects.filter(status=1).order_by("-id")
     return render(request, "front/detail/doctorsList.html", {'doctor': doctor})
+
+
+def disease(request, pk):
+    disease = Disease.objects.get(pk=pk)
+    disease_name = disease.name
+    blogs = Blogs.objects.filter(title__istartswith=disease_name)
+    return render(request, "front/detail/disease.html", {"disease":disease,"blogs":blogs})
+    
+    
+def booking(request):
+    date = request.POST["dated"]
+    time = request.POST["timed"]
+    dr = Doctor.objects.filter(pk=request.POST["doctor"])[0]
+    services = Service.objects.filter(pk__in=request.POST.getlist('visit'))
+    total=0
+    for i in services:
+        total+=int(i.price)
+    return render(request, "front/booking/booking.html", {"date":date, "time": time,"total":total, "dr":dr,"services":services})
+
+
+def bookingConfirm(request):
+    fn = request.POST['fn']
+    ln = request.POST['ln']
+    email = request.POST['email']
+    phone = request.POST['phone']
+    location = request.POST['location']
+    street1  = request.POST['street1']
+    street2  = request.POST['street2']
+    services = request.POST.getlist('service')
+    dr = request.POST['doctor']
+    city  = request.POST['city']
+    state  = request.POST['state']
+    postal  = request.POST['postal']
+
+
+    book = Booking.objects.create(service=services,fn=fn,ln=ln,email=email,phone=phone,location=location,street1=street1,street2=street2,city=city, state=state, postal=postal)
+    book.save()
+
+    doc = Doctor.objects.get(pk=dr)
+    a= doc.type.all()[0]
+    t = Type.objects.filter(id=a.id)[0]
+    t.counter = str(int(t.counter)+1)
+    t.save()
+    book.doctor.add(doc)
+    return render(request,"front/booking/confirm.html",{"a":t})
+
+
+def review(request, id):
+    if request.method == 'POST':
+        rate = request.POST.get('rate')
+        title = request.POST['title']
+        re = request.POST['re']
+        doc = Doctor.objects.filter(id=id)[0]
+        review = Review.objects.create(rate=rate,title=title,rev=re)
+        review.save()
+        review.doctor.add(doc)
+        messages.success(request, "Review send. It will be published once the doctor accepts it.")
+        return HttpResponseRedirect('/doctor/%d' % int(id))
+    else:
+        doctor = Doctor.objects.filter(id=id)[0]
+        return render(request, "front/detail/review.html", {"doctor":doctor})    

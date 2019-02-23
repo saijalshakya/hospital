@@ -1,0 +1,176 @@
+{% extends "front/master.html" %}
+{% block content %}
+    <main><form method="POST" action = "{% url 'front:bookingConfirm' %}">
+						{% csrf_token %}
+		<div id="breadcrumb">
+			<div class="container">
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#">Category</a></li>
+					<li>Page active</li>
+				</ul>
+			</div>
+		</div>
+		<!-- /breadcrumb -->
+		<div class="container margin_60">
+			<div class="row">
+				<div class="col-xl-8 col-lg-8">
+				<div class="box_general_3 cart">
+					<div class="message">
+						<p>Form with * is important</p>
+					</div>
+					<div class="form_title wow fadeInDown">
+						<h3><strong>1</strong>Your Details</h3>
+						<p>
+							Mussum ipsum cacilds, vidis litro abertis.
+						</p>
+					</div>
+					<div class="step wow fadeInDown">
+						<div class="row">
+						
+							<div class="col-md-6 col-sm-6">
+								<div class="form-group">
+									<label>First name *</label>
+									<input type="text" class="form-control" id="fn" name="fn" placeholder="Jhon">
+								</div>
+							</div>
+							<div class="col-md-6 col-sm-6">
+								<div class="form-group">
+									<label>Last name *</label>
+									<input type="text" class="form-control" id="ln" name="ln" placeholder="Doe">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+								<div class="form-group">
+									<label>Email</label>
+									<input type="email" id="email_booking" name="email" class="form-control" placeholder="jhon@doe.com">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+								<div class="form-group">
+									<label>Telephone *</label>
+									<input type="text" id="telephone_booking" name="phone" class="form-control" placeholder="00 44 678 94329">
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<!--End step -->
+					<div class="form_title wow fadeInDown">
+						<h3><strong>2</strong>Billing Address</h3>
+						<p>
+							Mussum ipsum cacilds, vidis litro abertis.
+						</p>
+					</div>
+					<div class="step wow fadeInDown">
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+								<label>Location *</label>
+								<div class="form-group">
+									<select class="form-control" name="location" id="country">
+										<option value="">Select your location</option>
+										<option value="Kathmandu">Kathmandu</option>
+										<option value="Lalitpur">Lalitpur</option>
+										<option value="Bhaktapur">Bhaktapur</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+								<div class="form-group">
+									<label>Street line 1 *</label>
+									<input type="text" id="street_1" name="street1" class="form-control" placeholder="Street line 1">
+								</div>
+							</div>
+							<div class="col-md-6 col-sm-6">
+								<div class="form-group">
+									<label>Street line 2</label>
+									<input type="text" id="street_2" name="street2" class="form-control" placeholder="Street line 1">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>City *</label>
+									<input type="text" id="city_booking" name="city" class="form-control" placeholder="Miami">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label>State</label>
+									<input type="text" id="state_booking" name="state" class="form-control" placeholder="Florida">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label>Postal code</label>
+									<input type="text" id="postal_code" name="postal" class="form-control" placeholder="00342">
+								</div>
+							</div>
+						</div>
+						<!--End row -->
+					</div>
+					<hr>
+					<!--End step -->
+					<div id="policy">
+						<h4>Cancellation policy *</h4>
+						<div class="form-group">
+							<div class="checkboxes">
+								<label class="container_check">I accept <a href="#0">terms and conditions and general policy</a>
+									<input type="checkbox">
+									<span class="checkmark"></span>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+				<!-- /col -->
+				<aside class="col-xl-4 col-lg-4" id="sidebar">
+					<div class="box_general_3 booking">
+						
+							<div class="title wow fadeInDown">
+								<h3>Your booking</h3>
+							</div>
+							<div class="summary wow fadeInDown">
+								<ul>
+									<li>Date: <strong class="float-right">{{date}}</strong></li>
+									<li>Time: <strong class="float-right">{{time}}</strong></li>
+									<li>Dr. Name: <strong class="float-right">Dr. {{dr.name}}</strong></li>
+									<input type="hidden" value = "{{ dr.id }}" name="doctor"/>
+								</ul>
+							</div>
+							
+							{%for i in services%}
+								<input type="hidden" value = "{{i.id}}" name="service"/>
+							{%endfor%}
+							<ul class="treatments checkout clearfix">
+								{% for service in services %}
+                                    <li class="wow fadeInDown">
+									{{service.name}}<strong class="float-right">{{ service.price }}</strong>
+								    </li>
+                                {% endfor %}
+                                <li class="total wow bounceInDown">
+									Total <strong class="float-right">{{total}}</strong>
+								</li>
+							</ul>
+							<hr>
+							
+					</div>
+					<!-- /box_general -->
+				</aside>
+				<!-- /asdide -->
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+		<button class="btn_1 full-width" type="submit">Confirm</button>
+						</form>
+	</main>
+{% endblock  %}

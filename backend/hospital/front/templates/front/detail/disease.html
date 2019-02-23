@@ -1,0 +1,90 @@
+{% extends 'front/master.html' %}
+
+{% block content %}
+   <main>
+ <div class="container margin_60" >
+    <div class="main_title">
+        <h1>{{ disease.name }}</h1>
+        <p>Type:  {% if disease.level == '1' %} 
+                                    Danger
+                                    {% elif disease.level == '2'%} 
+                                    Mid-Range 
+                                    {% else %} 
+                                    Normal 
+                                    {% endif %}</p>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+         <div class="card text-white   wow fadeIn {% if disease.level == '1' %} bg-danger {% elif disease.level == '2'%} bg-warning {% else %} bg-success {% endif %}  mb-3" style="width: 70rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ disease.name }}</h5>
+                <p><b style="color:black">Intro:</b> {{disease.summary}}</p>
+                <p class="card-text">Found: 
+                    {% if disease.found == 'o' %}
+                        Outsite Kathmandu
+                    {% elif disease.found == 'w' %}
+                        Whole Nepal
+                    {% else %}
+                        Inside Kathmandu
+                    {% endif %}
+                </p>
+            </div>
+            <br/>
+        </div>
+    </div>
+    <!-- /row -->
+</div>
+<div class="container margin_60">
+			<div class="main_title">
+				<h1>Related Blogs For This</h1>
+				<p>Please go through it.</p>
+			</div>
+			<div class="row">
+				<div class="col-lg-9" >
+                    {% if blogs %}
+                        {% for more in blogs %}
+                        <article class="blog wow bounceIn">
+                            <div class="row no-gutters">
+                                <div class="col-lg-7">
+                                    <figure>
+                                       <a href="{% url 'front:news' more.pk %}"><img src="{{ more.image.url }}" alt=""><div class="preview"></div></a>
+                                    </figure>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="post_info">
+                                        <small>{{ more.created_at }}</small>
+                                        <h3><a href="{% url 'front:news' more.pk %}">{{ more.title }}</a></h3>
+                                        <p>{{ more.intro }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    {% endfor %}
+                    {% else %}
+                        <article class="blog">
+                            <div class="post_info">
+                                <h3>Sorry. No News and Events Found</h3>
+                                <hr/>
+                                <h3>Contact Us for More info</h3>
+                            </div>
+                        </article>
+                    {% endif %}
+				</div>
+				<!-- /col -->
+				<aside class="col-lg-3">
+					<div class="widget">
+						<form>
+							<div class="form-group">
+								<input type="text" name="search" id="search" class="form-control" placeholder="Search...">
+							</div>
+							<button type="submit" id="submit" class="btn_1"> Search</button>
+						</form>
+					</div>
+					<!-- /widget -->
+				</aside>
+				<!-- /aside -->
+			</div>
+			<!-- /row -->
+		</div>
+   </main>
+{% endblock  %}

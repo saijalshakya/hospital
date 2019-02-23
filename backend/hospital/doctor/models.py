@@ -12,6 +12,7 @@ class Type(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=1, choices=status_choice, null=True)
     soft = models.BooleanField(default=1)
+    counter = models.CharField(max_length=1000, default=0, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -46,3 +47,37 @@ class Doctor(models.Model):
 
     def __str__(self):
         return self.name+" - "+self.username
+
+confirm_choice = (
+    ('1', 'Confirmed'),
+    ('0', 'Unconfirmed'),
+)
+
+
+class Booking(models.Model):
+    service = models.CharField(max_length = 500, null = False, blank = False)
+    doctor = models.ManyToManyField(Doctor)
+    fn = models.CharField(max_length = 100, null = False, blank = False)
+    ln = models.CharField(max_length = 100, null = False, blank = False)
+    email = models.CharField(max_length = 500, null = True, blank = True)
+    phone = models.CharField(max_length = 800, null = False, blank = False)
+    location = models.CharField(max_length=300, null = False, blank = False)
+    street1 = models.CharField(max_length=200, null = False, blank = False)
+    street2 = models.CharField(max_length=200, null = True, blank = True)
+    city = models.CharField(max_length=200, null = False, blank = False)
+    state = models.CharField(max_length=100, null = True, blank = True)
+    postal = models.CharField(max_length=100, null = True, blank = True)
+    confirm = models.CharField(max_length=1, choices=confirm_choice, default = "0",null=False, blank = False)
+
+    def __str__(self):
+        return self.fn+" "+self.ln
+
+class Review(models.Model):
+    rate = models.CharField(max_length=100,null=False, blank=False)
+    doctor = models.ManyToManyField(Doctor)
+    title = models.CharField(max_length=500, null=False, blank=False)
+    rev   = models.CharField(max_length=1000, null=False, blank=False)
+    status = models.CharField(max_length=1, choices=status_choice, null=True, default=0)
+
+    def __str__(self):
+        return self.title
