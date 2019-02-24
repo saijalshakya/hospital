@@ -55,7 +55,7 @@
 					</ul>
 				</div>
 				<div class="col-md-4">
-					<div id="copy">© 2017 {% block company_name %} {% endblock %}</div>
+					<div id="copy">© 2019 {% block company_name %} {% endblock %}</div>
 				</div>
 			</div>
 		</div>
@@ -70,5 +70,14 @@
 	<script src="{% static 'frontend/js/jquery-2.2.4.min.js' %}"></script>
 	<script src="{% static 'frontend/js/common_scripts.min.js' %}"></script>
 	<script src="{% static 'frontend/js/functions.js' %}"></script>
+	<script src="{% static 'frontend/js/jquery.cookiebar.js' %}"></script>
+	<script>
+		$(document).ready(function(){
+		'use strict';
+		 $.cookieBar({
+			fixed: true
+		});
+		});
+	</script>
 </body>
 </html>

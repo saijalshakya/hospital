@@ -1,14 +1,19 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from django.conf.urls import url
 
 app_name = "dashboard"
 
 urlpatterns = [
-    path('', views.IndexView.as_view(), name="index"),
+    path('', views.IndexView, name="index"),
+    path('accounts/', include('django.contrib.auth.urls')),
+
+
+    path('doctor/register/', views.register, name="register"),
+
     url(r'users/$', views.UserView.as_view(), name="users"),
     # path('cancer/', views.CancerPredictions.as_view(), name="cancer"),
-    url(r'users/create$', views.UserCreate.as_view(), name="user-create"),
+    url(r'users/create$', views.registerUser, name="user-create"),
     
     # # user detail view url dashboard/users/details/n
     # url(r'^users/details/(?P<pk>[0-9]+)/$', views.UserDetailView.as_view(), name="user-detail"),
@@ -51,4 +56,15 @@ urlpatterns = [
     # company view url dashboard/blogs/n
     url(r'^company/update/(?P<pk>[0-9]+)/$', views.CompanyDetailUpdate.as_view(), name="company-update"),
 
+
+    path('doctors/', views.doctors.as_view(), name="doctors"),
+    path('doctors/create-doctors', views.register, name="create-doctors"),
+
+    path('appointments/',views.appointments, name="appointments"),
+    path('confirm/<int:id>/', views.confirmation, name="confirm"),
+    path('profile/',views.profile, name="profile"),
+    path('profile/save/',views.profile,name="profile-save"),
+    path('me-booked/',views.book,name="me-booked"),
+    path('patient-details/<int:pk>/',views.patientDetails, name="patient-details"),
+    path('checked-by-doctor/<int:id>/',views.checked, name="checked")
 ]

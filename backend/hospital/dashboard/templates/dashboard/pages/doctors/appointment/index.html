@@ -1,0 +1,59 @@
+{% extends 'dashboard/main.html' %}
+{%block content%}
+<div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Appointments
+            <small>[All Appointments]</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{% url 'dashboard:index' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Doctors</li>
+          </ol>
+        </section>
+        {% if messages %}
+            {% include 'dashboard/pages/notification.html' %}
+        {% endif %}
+        <section class="content container-fluid">
+            <div class="box">
+                <div class="box-header" style="display:flex; flex-flow: row wrap;">
+                  <h3 class="box-title">Data Table With Basic Info</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                      <th>S.No.</th>
+                      <th>Name</th>
+                      <th>Phone</th>
+                      <th>Confirm</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in appointment %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{booking.fn}} {{ booking.ln }}</td>
+                                <td><a href="tel:{{ booking.phone }}" class="btn btn-sm btn-primary">{{ booking.phone }}</a></td>
+                                <td>
+                                    {% if booking.confirm == "0" %}
+                                        <a href="{% url 'dashboard:confirm' booking.id%}"><button class="btn btn-sm btn-danger">Unconfirm</button></a>
+                                    {% else %}
+                                        <a href="{% url 'dashboard:confirm' booking.id %}"><button class="btn btn-sm btn-success">Confirmed</button></a>        
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}                    
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.box-body -->
+              </div>
+            <ul>
+                
+            </ul>
+        </section>
+</div>
+{% endblock %}

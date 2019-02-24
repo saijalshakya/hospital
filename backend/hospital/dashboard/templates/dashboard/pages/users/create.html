@@ -4,8 +4,8 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Add Users
-            <small>[All Users]</small>
+            Add Doctors
+            <small>[All Doctors for login]</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="{% url 'dashboard:index' %}"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -15,57 +15,7 @@
         </section>
         <section class="content container-fluid">
         <div class="row">
-        <!-- left column -->
-        <div class="col-md-6">
-          <!-- general form elements -->
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">Basic Information</h3>
-            </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form role="form" method="post" action="{% url 'dashboard:user-add' %}" enctype="multipart/form-data"s>
-            {% csrf_token %}
-              <div class="box-body">
-                <div class="form-group">
-                  <label>First Name</label>
-                  <input type="text" class="form-control" id="fn" name="fn" placeholder="Enter first name">
-                </div>
-                <div class="form-group">
-                  <label>Last Name</label>
-                  <input type="text" class="form-control" id="ln" name="ln" placeholder="Enter last name">
-                </div>
-                <div class="form-group">
-                  <label>Address</label>
-                  <input type="text" class="form-control" id="address" name="address" placeholder="Enter address">
-                </div>
-                <div class="form-group">
-                  <label>Phone number</label>
-                  <input type="text" class="form-control" id="phone" name="v" placeholder="Enter phone number">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputFile">Image</label>
-                  <input type="file" name="image" id="exampleInputFile">
-
-                  <p class="help-block">[Maximum 200MB]</p>
-                </div>
-                <div class="form-group">
-                  <label>Role</label>
-                  <select class="form-control" name="roles">
-                    <option disabled selected>Select Role</option>
-                  {% for i in roles %}
-                    <option id="{{i.id}}">{{i.title}}</option>
-                  {%endfor%}
-                  </select>
-                </div>
-              </div>
-          </div>
-          <!-- /.box -->
-
-        </div>
-        <!--/.col (left) -->
-        <!-- right column -->
-        <div class="col-md-6">
+        <div class="col-md-12">
           <!-- Horizontal Form -->
           <div class="box box-info">
             <div class="box-header with-border">
@@ -74,36 +24,82 @@
             <!-- /.box-header -->
             <!-- form start -->
               <div class="box-body">
-                     <div class="form-group">
-                  <label class="col-sm-2 control-label">Email </label>
+                 <form role="form"  method="POST">
+                  {% csrf_token %}
+                   <div class="form-group">
+                   {{ form.username.errors }}
+                    <label class="col-sm-2 control-label" for="{{ form.username.id_for_label }}">Username </label>
 
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="email" name="email" placeholder="Email address">
+                    <div class="col-sm-10">
+                      {{ form.username }}
+                    </div>
                   </div>
-                </div>
-                <br/>
-                <br/>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">Password </label>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <div class="form-group">
+                  {{ form.first_name.errors }}
+                    <label class="col-sm-2 control-label" for="{{ form.first_name.id_for_label }}">First Name </label>
 
-                  <div class="col-sm-10">
-                    <input type="password" class="form-control" id="email" name="email" placeholder="Email address">
+                    <div class="col-sm-10">
+                      {{ form.first_name }}
+                    </div>
                   </div>
-                </div>
-                <br/>
-                <br/>
+                  <br/>
+                  <br/>
+                  <div class="form-group">
+                  {{ form.last_name.errors }}
+                    <label class="col-sm-2 control-label" for="{{ form.last_name.id_for_label }}">Last Name </label>
 
-                <div class="form-group">
-                  <label for="inputPassword3" class="col-sm-2 control-label"></label>
-                
-                  <div class="col-sm-10">
+                    <div class="col-sm-10">
+                      {{ form.last_name }}
+                    </div>
+                  </div>
+                    <br/>
+                  <br/>
+                  <div class="form-group">
+                  {{ form.email.errors }}
+                    <label class="col-sm-2 control-label" for="{{ form.email.id_for_label }}">Email </label>
 
-                  <div class="input-group">
-                    <span class="input-group-addon">@</span>
-                    <input type="text" class="form-control" placeholder="Username">
+                    <div class="col-sm-10">
+                      {{ form.email }}
+                    </div>
                   </div>
+                  <br/>
+                  <br/>
+                  <div class="form-group">
+                  {{ form.password1.errors }}
+                    <label class="col-sm-2 control-label" for="{{ form.password1_myself.id_for_label }}">Password </label>
+                    <div class="col-sm-10">
+                      {{ form.password1 }}
+                    </div>
                   </div>
-                </div>
+                  <br/>
+                  <br/>
+                  <div class="form-group">
+                  {{ form.password2.errors }}
+                    <label class="col-sm-2 control-label" for="{{ form.password2_myself.id_for_label }}">Confirm Password </label>
+                    <div class="col-sm-10">
+                      {{ form.password2 }}
+                    </div>
+                  </div>
+                   <div class="form-group">
+                    {{ form.is_staff.errors }}
+                      <label class="col-sm-2 control-label" for="{{ form.is_staff.id_for_label }}">Is Staff</label>
+                      <div class="col-sm-10">
+                        {{ form.is_staff }}
+                      </div>
+                  </div>
+                  <br/>
+                  <br/>
+                  <br/>
+                   <div class="form-group">
+                    {{ form.is_superuser.errors }}
+                      <label class="col-sm-2 control-label" for="{{ form.is_superuser.id_for_label }}">Is Admin</label>
+                      <div class="col-sm-10">
+                        {{ form.is_superuser }} [Can access to all tasks and operations]
+                      </div>
+                  </div>
               </div>
               <!-- /.box-body -->
               <div class="box-footer">

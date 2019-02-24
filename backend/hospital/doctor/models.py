@@ -1,5 +1,9 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
+from django.urls import reverse
+from django.utils import timezone
+
 # Create your models here.
 
 status_choice = (
@@ -24,14 +28,12 @@ class Service(models.Model):
     soft = models.BooleanField(default=1)
 
     def __str__(self):
-        return self.name+"-"+self.price
+        return self.name
 
         
 class Doctor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100, null=True)
-    email = models.CharField(max_length=250, unique=True)
-    username = models.CharField(max_length=250, unique=True, null=False)
-    password = models.CharField(max_length=800, null=False)
     image = models.FileField(verbose_name="Doctor Image")
     type = models.ManyToManyField(Type)
     service = models.ManyToManyField(Service)
@@ -41,18 +43,25 @@ class Doctor(models.Model):
     address = models.CharField(max_length=1000, null=True)
     statement = models.CharField(max_length=5000, null=False)
     educationStatement = models.CharField(max_length=5000, null=False)
-    status = models.BooleanField(default=0)
+    status = models.CharField(max_length=1, choices=status_choice, null=True)
     soft = models.BooleanField(default=1)
     views = models.CharField(max_length=5000, null=True, blank=True, default=0)
 
     def __str__(self):
-        return self.name+" - "+self.username
+        return self.name
+    
+    def get_absolute_url(self):
+        return reverse('dashboard:profile-save')
 
 confirm_choice = (
     ('1', 'Confirmed'),
     ('0', 'Unconfirmed'),
 )
 
+checked_choice = (
+    ('1', 'Checked'),
+    ('0', 'Unchecked'),
+)
 
 class Booking(models.Model):
     service = models.CharField(max_length = 500, null = False, blank = False)
@@ -68,6 +77,12 @@ class Booking(models.Model):
     state = models.CharField(max_length=100, null = True, blank = True)
     postal = models.CharField(max_length=100, null = True, blank = True)
     confirm = models.CharField(max_length=1, choices=confirm_choice, default = "0",null=False, blank = False)
+    checked = models.CharField(max_length=1, choices=checked_choice, default = "0",null=False, blank = False)
+    treatment = models.CharField(max_length=1000, null = True, blank = True)
+    next  = models.CharField(max_length=1000, null = True, blank = True)
+    note = models.CharField(max_length=1000, null = True, blank = True)
+    created_at = models.DateTimeField(default=timezone.now)
+
 
     def __str__(self):
         return self.fn+" "+self.ln

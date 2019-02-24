@@ -1,0 +1,57 @@
+{% extends 'dashboard/main.html' %}
+{%block content%}
+<div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Doctors
+            <small>[All Doctors Info]</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{% url 'dashboard:index' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Doctors</li>
+          </ol>
+        </section>
+        <section class="content container-fluid">
+            <div class="box">
+                <div class="box-header" style="display:flex; flex-flow: row wrap;">
+                  <h3 class="box-title">Data Table With Basic Info</h3>
+                  <div class="as"> <a href="{% url 'dashboard:create-doctors' %}"> <button class="btn btn-success btn-sm" style="right:0%">+Add</button></a></div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                      <th>S.No.</th>
+                      <th>Email</th>
+                      <th>Username</th>
+                      <th>Option</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in doctors %}
+                      <tr>
+                          <td>{{forloop.counter}}</td>
+                          <td>{{user.email}} </td>
+                          <td>{{user.username}}</td>
+                          <td><a href="{% url 'dashboard:user-update' user.pk %}"><button class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                          <form action="{% url 'dashboard:user-delete' user.pk %}" method="post">
+                          {% csrf_token %}
+                            <button class="btn btn-danger" type="submit"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+                          </form>
+                          </td>
+                      </tr>
+                    {%endfor%}
+                    
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.box-body -->
+              </div>
+            <ul>
+                
+            </ul>
+        </section>
+</div>
+{% endblock %}

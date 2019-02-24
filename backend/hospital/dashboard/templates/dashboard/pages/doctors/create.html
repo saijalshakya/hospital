@@ -1,0 +1,118 @@
+{% extends 'dashboard/main.html' %}
+{%block content%}
+<div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Add Doctors
+            <small>[All Doctors for login]</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{% url 'dashboard:index' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active"><a href="{% url 'dashboard:users'%}">Users</a></li>
+            <li class="active">Add</li>
+          </ol>
+        </section>
+        <section class="content container-fluid">
+        <div class="row">
+        <div class="col-md-12">
+          <!-- Horizontal Form -->
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Login Information</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+              <div class="box-body">
+                 <form role="form"  method="POST">
+                  {% csrf_token %}
+                   <div class="form-group">
+                   {{ form.username.errors }}
+                    <label class="col-sm-2 control-label" for="{{ form.username.id_for_label }}">Username </label>
+
+                    <div class="col-sm-10">
+                      {{ form.username }}
+                    </div>
+                  </div>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <div class="form-group">
+                  {{ form.first_name.errors }}
+                    <label class="col-sm-2 control-label" for="{{ form.first_name.id_for_label }}">First Name </label>
+
+                    <div class="col-sm-10">
+                      {{ form.first_name }}
+                    </div>
+                  </div>
+                  <br/>
+                  <br/>
+                  <div class="form-group">
+                  {{ form.last_name.errors }}
+                    <label class="col-sm-2 control-label" for="{{ form.last_name.id_for_label }}">Last Name </label>
+
+                    <div class="col-sm-10">
+                      {{ form.last_name }}
+                    </div>
+                  </div>
+                    <br/>
+                  <br/>
+                  <div class="form-group">
+                  {{ form.email.errors }}
+                    <label class="col-sm-2 control-label" for="{{ form.email.id_for_label }}">Email </label>
+
+                    <div class="col-sm-10">
+                      {{ form.email }}
+                    </div>
+                  </div>
+                  <br/>
+                  <br/>
+                  <div class="form-group">
+                  {{ form.password1.errors }}
+                    <label class="col-sm-2 control-label" for="{{ form.password1_myself.id_for_label }}">Password </label>
+                    <div class="col-sm-10">
+                      {{ form.password1 }}
+                    </div>
+                  </div>
+                  <br/>
+                  <br/>
+                  <div class="form-group">
+                  {{ form.password2.errors }}
+                    <label class="col-sm-2 control-label" for="{{ form.password2_myself.id_for_label }}">Confirm Password </label>
+                    <div class="col-sm-10">
+                      {{ form.password2 }}
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    {{ form.is_superuser.errors }}
+                      <label class="col-sm-2 control-label" for="{{ form.is_superuser.id_for_label }}">Is Doctor?</label>
+                      <div class="col-sm-10">
+                        {{ form.is_superuser }} [Can access to all tasks and operations]
+                      </div>
+                  </div>
+                  <br/>
+                  <br/>
+                  <br/>
+
+                  <div class="form-group">
+                    {{ form.is_staff.errors }}
+                      <label class="col-sm-2 control-label" for="{{ form.is_staff.id_for_label }}">Is Staff</label>
+                      <div class="col-sm-10">
+                        {{ form.is_staff }} [Can access to all tasks and operations]
+                      </div>
+                  </div>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <button type="submit" class="btn btn-info pull-right">Submit</button>
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+          <!-- /.box -->
+        </div>
+        <!--/.col (right) -->
+      </div>
+        </section>
+</div>
+{% endblock %}

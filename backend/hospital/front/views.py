@@ -13,8 +13,8 @@ from django.http import HttpResponseRedirect
 
 def index(request):
     diseases = Disease.objects.filter(status="1")
-    news = Blogs.objects.filter(status="1", types="1")
-    events = Blogs.objects.filter(status="1", types="0")
+    news = Blogs.objects.filter(status="1", types="1")[:10]
+    events = Blogs.objects.filter(status="1", types="0")[:10]
     doctors = Doctor.objects.filter(status="1")
     company = Company.objects.all()
     t = Type.objects.order_by("-counter").all()[0]
@@ -81,7 +81,8 @@ def bookingConfirm(request):
     location = request.POST['location']
     street1  = request.POST['street1']
     street2  = request.POST['street2']
-    services = request.POST.getlist('service')
+    a = request.POST.getlist('service')
+    services = ', '.join(a)
     dr = request.POST['doctor']
     city  = request.POST['city']
     state  = request.POST['state']
@@ -114,3 +115,22 @@ def review(request, id):
     else:
         doctor = Doctor.objects.filter(id=id)[0]
         return render(request, "front/detail/review.html", {"doctor":doctor})    
+
+
+def blogs(request):
+    news = Blogs.objects.filter(status=1, types=1)[:3]
+    events = Blogs.objects.filter(status=1, types=0)[:3]
+    return render(request, "front/detail/blogs.html", {'news': news, 'events':events})
+
+
+def all_news(request):
+    news = Blogs.objects.filter(status=1, types=1)
+    return render(request, "front/detail/allnews.html", {"news":news})
+
+def all_events(request):
+    events = Blogs.objects.filter(status=1, types=0)
+    return render(request, "front/detail/allevent.html", {"events":events})
+
+
+def about(request):
+    return render(request, "front/detail/about.html")

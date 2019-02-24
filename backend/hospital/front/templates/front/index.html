@@ -60,16 +60,16 @@
 			<!-- /container -->
 		</div>
 		<!-- /Hero -->
-		<div class="container margin_120_95" style="background-color:#5343">
-			<div class="main_title">
-				<h2>People have visited {{t.name}} Doctor mostly</h2>
-				<p>It is all based on User Experience and Recommendation for you.	</p>
+		<div class="container margin_120_95" style="background-color:white;border-radius:20%;box-shadow:0px 0px 20px 2px #7777;">
+			<div class="main_title wow fadeInDown">
+				<h2>People have visited <span style="color:gold;font-weight:bold;">{{t.name}}</span> Doctor mostly</h2>
+				<p>It is all based on <u style="color:gold;font-weight:bold;">User Experience</u> and <u style="color:gold;font-weight:bold;">Recommended</u> for you.	</p>
 			</div>
 			<div class="row add_bottom_30">
 				<div class="col-lg-4 ">
 					
 				</div>
-				<div class="col-lg-4 text-center">
+				<div class="col-lg-4 text-center wow fadeInRight">
 					<a href="{% url 'front:recommend' t.id %}">
 					<button class="btn btn-warning">Find {{t.name}} Doctor</button>
 					</a>

@@ -1,23 +1,31 @@
 from django.shortcuts import render
 from players.models import Players, Role
-from disease.models import Disease,Doctor
+from disease.models import Disease
 from blogs.models import Blogs
 from company.models import Company
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib import messages
-from django.views.generic import TemplateView
+from django.contrib.auth import authenticate, login
+from django.views.generic import TemplateView, View
 import _pickle as cPickle
 import pickle
-
+from .forms import UserForm, SignUpForm, ProfileForm
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout, authenticate, login
+from django.utils.decorators import method_decorator
 # Landing page /dashboard
-class IndexView(generic.ListView):
-    template_name = "dashboard/pages/index.html"
-    def get_queryset(self):
-        return ''
+from doctor.models import Doctor,Booking, Service, Type
+
+@login_required(login_url='/admin/accounts/login/')
+def IndexView(request):
+    return render(request,"dashboard/pages/index.html")
+
+
 
 # User Landing page /dashboard/users
 class UserView(generic.ListView):
@@ -26,7 +34,7 @@ class UserView(generic.ListView):
     template_name = "dashboard/pages/users/index.html"
    
     def get_queryset(self):
-        return Players.objects.all()
+        return User.objects.filter(is_staff=1, is_superuser=0)
 
 # # User Detail page /dashboard/users/n
 # class UserDetailView(generic.DetailView):
@@ -45,8 +53,8 @@ class UserUpdate(UpdateView):
 
 # User Delete page
 class UserDelete(DeleteView):
-    model = Players
-    success_url = reverse_lazy('dashboard:users')
+    model = User
+    success_url = reverse_lazy('dashboard:doctors')
 
 
 
@@ -156,5 +164,152 @@ class CompanyDetailUpdate(UpdateView):
 #     def get_queryset(self):
 #         return res
 
-       
+class UserFormView(View):
+    form_class = UserForm
+    template_name = 'dashboard/pages/registration_form.html'
 
+    def get(self, request):
+        form  = self.form_class(None)
+        return render(request, self.template_name, {'form':form})
+
+    def post(self, request):
+        form  = self.form_class(request.POST)
+
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user.is_staff = True
+
+            user = User(username=username)
+            user.is_staff = True
+
+            user.set_password(password)
+            user.save()
+            return render(request, "dashboard/pages/doctor/create.html", {'form':form})
+
+        return render(request, self.template_name, {'form':form})
+
+
+class doctors(generic.ListView):
+    context_object_name = "doctors"
+
+    template_name = "dashboard/pages/doctors/index.html"
+   
+    def get_queryset(self):
+        return User.objects.filter(is_staff=1,is_superuser=1)
+    
+
+def DoctorCreate(request):
+    if request.method == "POST":
+        pass
+    else:
+        return render(request, "dashboard/pages/doctors/create.html")
+        
+# @login_required(login_url='/admin/accounts/login/')
+def register(request):
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            return redirect("/admin/doctors")
+
+        else:
+            for msg in form.error_messages:
+                print(form.error_messages[msg])
+
+            return render(request, "dashboard/pages/doctors/create.html", context={"form": form})
+
+    form = SignUpForm()
+    return render(request, "dashboard/pages/doctors/create.html", {"form": form})
+
+
+def registerUser(request):
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            return redirect("/admin/users")
+        else:
+            for msg in form.error_messages:
+                print(form.error_messages[msg])
+
+            return render(request, "dashboard/pages/users/create.html", context={"form": form})
+
+    form = SignUpForm()
+    return render(request, "dashboard/pages/users/create.html", {"form": form})
+
+
+def appointments(request):
+    appointment = Booking.objects.order_by("confirm").all()
+    return render(request, "dashboard/pages/doctors/appointment/index.html",{"appointment":appointment})
+
+def confirmation(request, id):
+    booking = get_object_or_404(Booking, id=id)
+    
+    if booking.confirm == "0":
+        booking.confirm = "1"
+        messages.success(request, "Booking is confirmed", extra_tags="1")
+    else:
+        booking.confirm = "0"
+        messages.success(request, "Booking is unconfirmed", extra_tags="0")
+
+    booking.save()
+    return redirect("/admin/appointments/")
+
+    
+def profile(request):
+    pk = request.user.id
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.image = form.cleaned_data['image']
+            post.save()
+            cat = Type.objects.get(pk=request.POST['type'])
+            post.type.add(cat)
+            service = Service.objects.get(pk=request.POST['service'])
+            post.service.add(service)
+            messages.success(request, 'Successfully added')
+            return redirect('/profile/')
+    else:
+        form = ProfileForm()
+    args = {'profile': Doctor.objects.filter(user_id=pk).first(), 'form': form}
+    return render(request, 'dashboard/pages/doctors/profile.html', args)    
+
+
+class DocCreate(CreateView):
+    model = Doctor
+    fields = ['name','image','age','statement','status']
+
+
+def book(request):
+    doctor = Doctor.objects.filter(user_id=request.user.id)[0]
+    book = Booking.objects.order_by("-confirm").filter(doctor__id=doctor.id)
+    return render(request, "dashboard/pages/doctors/appointment/fordoctor.html",{"appointment":book})
+
+
+def patientDetails(request, pk):
+    booking = Booking.objects.filter(id=pk)[0]
+    service = Service.objects.filter(id__in=booking.service)
+    return render(request, "dashboard/pages/doctors/appointment/patient.html",{"patient":booking,"service":service})
+
+
+def checked(request, id):
+    booking = get_object_or_404(Booking, id=id)
+    
+    if booking.checked == "0":
+        booking.checked = "1"
+        messages.success(request, "Patient is checked", extra_tags="1")
+    else:
+        booking.checked = "0"
+        messages.success(request, "Patient is not checked", extra_tags="0")
+
+    booking.save()
+    return redirect("/admin/me-booked/")

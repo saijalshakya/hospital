@@ -145,3 +145,11 @@ MEDIA_URL = '/media/'
 
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/admin'
+
+LOGIN_EXEMPT_URLS = (
+    r'^accounts/logout/$',
+    r'^$',
+) #no middleware required

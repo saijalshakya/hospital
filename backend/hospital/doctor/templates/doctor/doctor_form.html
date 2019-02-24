@@ -1,0 +1,22 @@
+{% extends 'dashboard/main.html' %}
+{%block content%}
+<div class="content-wrapper">
+    <section class="content container-fluid">
+        <div class="box">
+                <div class="box-header" style="display:flex; flex-flow: row wrap;">
+                  <h3 class="box-title">Your basic information</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                     <form role="form" action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {% include 'doctor/form-template.html' %}
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                </div>
+                        </form>
+                </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard | Login</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'frontend/css/bootstrap.min.css' %}">
+        
+</head>
+<body>
+<!-- A grey horizontal navbar that becomes vertical on small screens -->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+
+  <!-- Links -->
+  <ul class="navbar-nav">
+    <li class="nav-item active">
+      <a class="nav-link" href="#">Bio Hospital</a>
+    </li>
+  </ul>
+
+</nav>
+    {% block content %}
+
+    {% endblock %}
+</body>
+</html>

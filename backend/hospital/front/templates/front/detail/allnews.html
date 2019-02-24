@@ -1,0 +1,49 @@
+{% extends "front/master.html" %}
+{% block content %}
+<main>
+		<div id="breadcrumb">
+			<div class="container">
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#">Category</a></li>
+					<li>Page active</li>
+				</ul>
+			</div>
+		</div>
+        <div class="container margin_60">
+			<div class="main_title">
+				<h1>Our News</h1>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+                    <article class="blog wow bounce">
+                        <div class="row ">
+
+                        {% for e in news %}
+                            <div class="col-md-4">
+                                <figure>
+                                    <a href="{{ e.image.url }}" target="_blank"><img src="{{ e.image.url }}"  alt=""><div class="preview"></div></a>
+                                </figure>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="post_info">
+                                    <small>{{ e.created_at }}</small>
+                                    <h3><a href="{{e.image.url}}">{{ e.title }}</a></h3>
+                                    <p>{{ e.intro }}</p>
+                                    {% comment %} <ul>
+                                        <li>
+                                            <div class="thumb"><img src="../findoctor/img/thumb_blog.jpg" alt=""></div> Jessica Hoops
+                                        </li>
+                                        <li><i class="icon_comment_alt"></i> 20</li>
+                                    </ul> {% endcomment %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </article>
+					<!-- /article -->
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock  %}
