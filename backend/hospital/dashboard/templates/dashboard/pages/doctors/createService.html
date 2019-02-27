@@ -1,0 +1,69 @@
+{% extends 'dashboard/main.html' %}
+{%block content%}
+<div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Add Doctors Services
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{% url 'dashboard:index' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active"><a href="{% url 'dashboard:doctors'%}">Doctors</a></li>
+            <li class="active"><a href="{% url 'dashboard:services'%}">Services</a></li>
+          </ol>
+        </section>
+        <section class="content container-fluid">
+        <div class="row">
+        <div class="col-md-12">
+          <!-- Horizontal Form -->
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Login Information</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+              <div class="box-body">
+                <form role="form"  method="POST" action="{% url 'dashboard:create-service' %}">
+                  {% csrf_token %}
+                   <div class="form-group">
+                    <label class="col-sm-2 control-label">Service Name </label>
+
+                    <div class="col-sm-10">
+                      <input type="text" name="name" class="form-control"/>
+                    </div>
+                  </div>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">Price</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" name="price" class="form-control"/>
+                    </div>
+                  </div>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">Status</label>
+                    <div class="col-sm-10">
+                      <select name="status">
+                        <option value="1">Publish</option>
+                        <option value="0" selected>Unpublish</option>
+                      </select>
+                    </div>
+                  </div>
+                <button type="submit" class="btn btn-info pull-right">Submit</button>
+                </form>
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+          <!-- /.box -->
+        </div>
+        <!--/.col (right) -->
+      </div>
+        </section>
+</div>
+{% endblock %}

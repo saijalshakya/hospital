@@ -85,25 +85,26 @@
       </div>
       <!-- /.row -->
     <div class="row">
-        <form method="post">
+        <form role="form" method="POST" action="{% url 'dashboard:submitReport' patient.id %}">
         {% csrf_token %}
         <div class="col-xs-2">
             <div class="form-group">
                 <label>Next Checkup</label>
-                <input type="text" class="form-control"/>
+                <input type="text" name="next" value="{{ patient.next }}" class="form-control"/>
             </div>
         </div>
         <div class="col-xs-10">
             <div class="form-group">
                 <label>Note</label>
-                <textarea rows=10 class="form-control" column=50></textarea>
+                <textarea style="text-align:justify;white-space:normal" rows=10 class="form-control" name="note" column=50>{{patient.note}}</textarea>
             </div>
         </div>
     </div>
       <!-- this row will not appear when printing -->
       <div class="row no-print">
         <div class="col-xs-12">
-            <button type="submit" value="Submit" class="btn btn-success">Submit</button>
+            <button type="submit" value="Submit" class="btn btn-success">Save</button>
+        </form>
           <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
             <i class="fa fa-download"></i> Generate PDF
           </button>

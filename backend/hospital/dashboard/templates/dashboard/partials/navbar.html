@@ -4,16 +4,19 @@
         <section class="sidebar">
     
           <!-- Sidebar user panel (optional) -->
+            {% if user.is_superuser %}
           <div class="user-panel">
-            <div class="pull-left image">
-              <img src="{{profile.image.url}}" class="img-circle" alt="User Image">
-            </div>
-            <div class="pull-left info">
-              <p>{{ user.first_name }} {{user.last_name}}</p>
+
+              <div class="pull-left image">
+                <img src="{{user.doctor.image.url}}" class="img-circle" alt="User Image">
+              </div>
+               <div class="pull-left info">
+                  <p>{{ user.first_name }} {{user.last_name}}</p>
               <!-- Status -->
-              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                  <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
           </div>
+            {% endif %}
     
           <!-- search form (Optional) -->
           <form action="#" method="get" class="sidebar-form">
@@ -31,27 +34,39 @@
             {% if user.is_superuser %}
               doctor
             <li {% if  request.get_full_path == "/admin/" %}   class="active" {% endif %}><a href="{% url 'dashboard:index' %}"><i class="fa fa-link"></i> <span>Home</span></a></li>
-            <li {% if  request.get_full_path == "/admin/diseases/" %}   class="active" {% endif %}><a href="{% url 'dashboard:diseases' %}"><i class="fa fa-link"></i> <span>Health Warnings</span></a></li>            
             <li {% if  request.get_full_path == "/admin/bookings/" %}   class="active" {% endif %}><a href="{% url 'dashboard:me-booked' %}"><i class="fa fa-link"></i> <span>Appointments</span></a></li>            
-
+            <li {% if  request.get_full_path == "/admin/review/" %}   class="active" {% endif %}><a href="{% url 'dashboard:review' %}"><i class="fa fa-link"></i> <span>Review</span></a></li>            
             {% else %}
               staff
-            <li {% if  request.get_full_path == "/admin/" %}   class="active" {% endif %}><a href="{% url 'dashboard:index' %}"><i class="fa fa-link"></i> <span>Home</span></a></li>
-            <li {% if  request.get_full_path == "/admin/users/" %}   class="active" {% endif %}><a href="{% url 'dashboard:users' %}"><i class="fa fa-link"></i> <span>Users</span></a></li>
-            <li {% if  request.get_full_path == "/admin/blogs/" %}   class="active" {% endif %}><a href="{% url 'dashboard:blogs' %}"><i class="fa fa-link"></i> <span>Blogs</span></a></li>            
-            <li {% if  request.get_full_path == "/admin/doctors/" %} class="active" {% endif %}><a href="{% url 'dashboard:doctors' %}"><i class="fa fa-link"></i> <span>Doctors</span></a></li>            
-            <li><a href="{% url 'dashboard:appointments' %}"><i class="fa fa-link"></i> <span>Appointments</span></a></li>            
-            <li class="treeview">
-              <a href="#"><i class="fa fa-link"></i> <span>Company</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="{% url 'dashboard:company-index' %}">Details</a></li>
-                <li><a href="#">Emails</a></li>
-              </ul>
-            </li>
+              <li {% if  request.get_full_path == "/admin/" %}   class="active" {% endif %}><a href="{% url 'dashboard:index' %}"><i class="fa fa-link"></i> <span>Home</span></a></li>
+              <li {% if  request.get_full_path == "/admin/users/" %}   class="active" {% endif %}><a href="{% url 'dashboard:users' %}"><i class="fa fa-link"></i> <span>Users</span></a></li>
+            <li {% if  request.get_full_path == "/admin/diseases/" %}   class="active" {% endif %}><a href="{% url 'dashboard:diseases' %}"><i class="fa fa-link"></i> <span>Health Warnings</span></a></li>                         
+              <li {% if  request.get_full_path == "/admin/blogs/" %}   class="active" {% endif %}><a href="{% url 'dashboard:blogs' %}"><i class="fa fa-link"></i> <span>Blogs</span></a></li>            
+              <li><a href="{% url 'dashboard:appointments' %}"><i class="fa fa-link"></i> <span>Appointments</span></a></li>            
+              <li class="treeview {% if  request.get_full_path == '/admin/doctors/' %} active{%endif%}">
+                <a href="#"><i class="fa fa-link"></i> <span>Doctors</span>
+                  <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu" {% if  request.get_full_path == '/admin/doctors/' %} style='display:block'{%endif%}>
+                  <li {% if  request.get_full_path == "/admin/doctors/" %} class="active" {% endif %}><a href="{% url 'dashboard:doctors' %}">List All</a></li>
+                  <li {% if  request.get_full_path == "/admin/doctors/" %} class="active" {% endif %}><a href="{% url 'dashboard:services' %}">Services</a></li>
+                  <li {% if  request.get_full_path == "/admin/doctors/" %} class="active" {% endif %}><a href="{% url 'dashboard:doctors' %}">Types</a></li>
+                </ul>
+              </li>
+              
+              <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> <span>Company</span>
+                  <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="{% url 'dashboard:company-index' %}">Details</a></li>
+                  <li><a href="#">Emails</a></li>
+                </ul>
+              </li>
             {% endif %}
             {% comment %} <li {% if  request.get_full_path == "/admin/blogs/" %}   class="active" {% endif %}><a href="{% url 'dashboard:cancer' %}"><i class="fa fa-link"></i> <span>Cancer</span></a></li>             {% endcomment %}
             

@@ -1,3 +1,6 @@
+from django.conf import settings
+from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import render
 from players.models import Players, Role
 from disease.models import Disease
@@ -19,7 +22,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, authenticate, login
 from django.utils.decorators import method_decorator
 # Landing page /dashboard
-from doctor.models import Doctor,Booking, Service, Type
+from doctor.models import Doctor,Booking, Service, Type,Review
+from xhtml2pdf import pisa
 
 @login_required(login_url='/admin/accounts/login/')
 def IndexView(request):
@@ -36,10 +40,6 @@ class UserView(generic.ListView):
     def get_queryset(self):
         return User.objects.filter(is_staff=1, is_superuser=0)
 
-# # User Detail page /dashboard/users/n
-# class UserDetailView(generic.DetailView):
-#     model = Players
-#     template_name = "dashboard/pages/users/detail.html"
 
 # User Create page /dashboard/users/create
 class UserCreate(CreateView):
@@ -109,7 +109,7 @@ class BlogView(generic.ListView):
 # Blogs Create page /dashboard/users/create
 class BlogCreate(CreateView):
     model = Blogs
-    fields = ['title','intro','description','image','status']
+    fields = ['title','intro','description','image','status','types']
 
 # Blogs Update page /dashboard/users
 class BlogUpdate(UpdateView):
@@ -196,7 +196,7 @@ class doctors(generic.ListView):
     template_name = "dashboard/pages/doctors/index.html"
    
     def get_queryset(self):
-        return User.objects.filter(is_staff=1,is_superuser=1)
+        return User.objects.filter(is_staff=1,is_superuser=1).exclude(username="admin")
     
 
 def DoctorCreate(request):
@@ -214,8 +214,9 @@ def register(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
-            return redirect("/admin/doctors")
-
+            user.is_staff = True
+            user.is_superuser = True
+            user.save()
         else:
             for msg in form.error_messages:
                 print(form.error_messages[msg])
@@ -234,11 +235,12 @@ def registerUser(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
+            user.is_staff = True
+            user.save()
             return redirect("/admin/users")
         else:
             for msg in form.error_messages:
                 print(form.error_messages[msg])
-
             return render(request, "dashboard/pages/users/create.html", context={"form": form})
 
     form = SignUpForm()
@@ -268,16 +270,15 @@ def profile(request):
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES)
         if form.is_valid():
-            post = form.save(commit=False)
+            post = form.save()
             post.user = request.user
             post.image = form.cleaned_data['image']
             post.save()
             cat = Type.objects.get(pk=request.POST['type'])
             post.type.add(cat)
-            service = Service.objects.get(pk=request.POST['service'])
-            post.service.add(service)
-            messages.success(request, 'Successfully added')
-            return redirect('/profile/')
+            answer = form.cleaned_data['service']
+            post.service.set(answer)
+            return redirect('/admin/profile/')
     else:
         form = ProfileForm()
     args = {'profile': Doctor.objects.filter(user_id=pk).first(), 'form': form}
@@ -291,13 +292,15 @@ class DocCreate(CreateView):
 
 def book(request):
     doctor = Doctor.objects.filter(user_id=request.user.id)[0]
-    book = Booking.objects.order_by("-confirm").filter(doctor__id=doctor.id)
+    book = Booking.objects.order_by("-confirm").filter(doctor__id=doctor.id, confirm=1)
     return render(request, "dashboard/pages/doctors/appointment/fordoctor.html",{"appointment":book})
 
 
 def patientDetails(request, pk):
     booking = Booking.objects.filter(id=pk)[0]
-    service = Service.objects.filter(id__in=booking.service)
+    a = booking.service
+    b = a.split(",")
+    service = Service.objects.filter(id__in=b)
     return render(request, "dashboard/pages/doctors/appointment/patient.html",{"patient":booking,"service":service})
 
 
@@ -313,3 +316,93 @@ def checked(request, id):
 
     booking.save()
     return redirect("/admin/me-booked/")
+
+
+def submitReport(request, id):
+    patient = get_object_or_404(Booking, id=id)
+    patient.next = request.POST['next']
+    patient.note = request.POST['note']
+    p = []
+    p.append(patient.email)
+    patient.save()
+    # send_mail(
+    #             'Subject here asdjhaskjdhsakj',
+    #             'Here is the message.',
+    #             settings.EMAIL_HOST_USER,
+    #             ['saijalshakya@gmail.com'],
+    #             fail_silently=False
+    # #         )
+    # to_email = []
+    # to_email.append(patient.email)
+    # subject, from_email = 'hello', settings.EMAIL_HOST_USER
+    # text_content = 'This is an important message.'
+    # msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
+    # msg.send()
+    messages.success(request, "Next check up and note has been saved.", extra_tags="1")
+    return redirect('/admin/patient-details/%d' %int(id))
+
+def services(request):
+    services = Service.objects.all()
+    return render(request, "dashboard/pages/doctors/services.html", {'services':services})
+
+def serviceStatus(request,id):
+    service = get_object_or_404(Service, id=id)
+
+    if service.status == 1:
+        service.status = 0
+        messages.success(request, "Service is unpublished", extra_tags=0)
+    else:
+        service.status = 1
+        messages.success(request, "Service is successfully published", extra_tags=1)
+
+    service.save()
+    return redirect("/admin/doctors/services")
+
+
+def createService(request):
+    if request.method == "POST":
+        name = request.POST['name']
+        price = request.POST['price']
+        status = request.POST['status']
+        Service.objects.create(name=name,price=price,status=status)
+        services = Service.objects.all()
+        return render(request,"dashboard/pages/doctors/services.html", {"services":services})
+    else:
+        return render(request,"dashboard/pages/doctors/createService.html")
+
+    
+def review(request):
+    user = request.user
+    doctor = get_object_or_404(Doctor, id=user.doctor.id)
+    reviews = doctor.review_set.all()
+    return render(request, "dashboard/pages/doctors/review.html", {"reviews":reviews})
+
+
+def revDetail(request, id):
+    review = get_object_or_404(Review, id=id)
+    return render(request, "dashboard/pages/doctors/reviewDetail.html", {"review":review})
+
+
+def reviewStatus(request, id):
+    review = get_object_or_404(Review, id=id)
+
+    if review.status == "0":
+        review.status = "1"
+        messages.success(request, "Review has been successfully published.", extra_tags=1)
+    else:
+        review.status = "0"
+        messages.success(request, "Review has been successfully unpublished.", extra_tags=0)
+
+    review.save()
+    return redirect("/admin/doctors/review/")
+
+
+def reviewDelete(request, id):
+    review = get_object_or_404(Review, id=id).delete()
+    
+    if review:
+        messages.success(request, "Review has been successfully deleted", extra_tags=1)
+    else:
+        messages.success(request, "Review is not deleted. Please try again.", extra_tags=0)
+    
+    return redirect("/admin/doctors/review/")

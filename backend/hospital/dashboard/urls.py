@@ -66,5 +66,14 @@ urlpatterns = [
     path('profile/save/',views.profile,name="profile-save"),
     path('me-booked/',views.book,name="me-booked"),
     path('patient-details/<int:pk>/',views.patientDetails, name="patient-details"),
-    path('checked-by-doctor/<int:id>/',views.checked, name="checked")
+    path('checked-by-doctor/<int:id>/',views.checked, name="checked"),
+    path('patient/submit-report/<int:id>/',views.submitReport, name="submitReport"),
+    path('doctors/services/', views.services, name="services"),
+    path('doctors/services/status/<int:id>/',views.serviceStatus, name="serviceStatus"),
+    path('doctors/services/create/', views.createService, name="create-service"),
+    path('doctors/review/', views.review, name="review"),
+    path('doctors/review/details/<int:id>/', views.revDetail, name="review-details"),
+    path("doctors/review/status/<int:id>/",views.reviewStatus, name="review-status"),
+    path("doctors/review/delete/<int:id>/", views.reviewDelete, name="review-delete")
+
 ]

@@ -63,6 +63,18 @@ checked_choice = (
     ('0', 'Unchecked'),
 )
 
+payment_choice = (
+    ('1', 'Paid'),
+    ('0', 'Unpaid'),
+)
+
+source_choice = (
+    ('1', 'Cash'),
+    ('2', 'Credit Card'),
+    ('3', 'Master Card')
+)
+
+
 class Booking(models.Model):
     service = models.CharField(max_length = 500, null = False, blank = False)
     doctor = models.ManyToManyField(Doctor)
@@ -82,8 +94,11 @@ class Booking(models.Model):
     next  = models.CharField(max_length=1000, null = True, blank = True)
     note = models.CharField(max_length=1000, null = True, blank = True)
     created_at = models.DateTimeField(default=timezone.now)
-
-
+    payment = models.CharField(max_length=1, choices=payment_choice, default = "0",null=False, blank = False)
+    date = models.CharField(max_length=500, null=False, blank=False, default = "0")
+    time = models.CharField(max_length=1000, null=False, blank=False, default = "0")
+    amount = models.CharField(max_length = 10000, null=False, blank=False, default = "0")
+    source = models.CharField(max_length=1, choices=source_choice, default = "0",null=False, blank = False)
     def __str__(self):
         return self.fn+" "+self.ln
 
@@ -93,6 +108,8 @@ class Review(models.Model):
     title = models.CharField(max_length=500, null=False, blank=False)
     rev   = models.CharField(max_length=1000, null=False, blank=False)
     status = models.CharField(max_length=1, choices=status_choice, null=True, default=0)
-
+    name = models.CharField(max_length=10000, null=False, blank=False, default="Anonymous")
+    created_at = models.DateTimeField(default=timezone.now)
+    
     def __str__(self):
         return self.title

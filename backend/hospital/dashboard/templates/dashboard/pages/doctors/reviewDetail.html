@@ -1,0 +1,62 @@
+{% extends 'dashboard/main.html' %}
+{%block content%}
+<div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Patient Review
+            <small>[All reviews]</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{% url 'dashboard:index' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Reviews</li>
+          </ol>
+        </section>
+        <section class="content container-fluid">
+            <div class="box">
+                {% include 'dashboard/pages/notification.html' %}
+                <div class="box-body">
+                    <section class="invoice">
+      <!-- title row -->
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 class="page-header">
+            <i class="fa fa-star">
+                {% if review.rate > "1" %}
+                    {{review.rate}} stars
+                {% else %}
+                    {{review.rate}} star
+                {% endif %}
+            </i> 
+          </h2>
+        </div>
+        <!-- /.col -->
+      </div>
+      <div class="row">
+        <div class="col-xs-12 table-responsive">
+            <h3>Title: {{review.title}}</h3>
+            <hr/>
+            <h3>Review:<br/><br/></h3>
+            <p>{{review.rev}}</p>
+        </div>
+      </div>
+      <div class="row no-print">
+        <div class="col-xs-12">
+          <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
+         <a href="{% url 'dashboard:review-delete' review.id %}">
+          <button type="button" class="btn btn-danger pull-right" style="margin-right: 5px;">
+            <i class="fa fa-trash"></i> Delete
+          </button>
+         </a>
+        </div>
+      </div>
+    </section>
+                </div>
+                <!-- /.box-body -->
+              </div>
+            <ul>
+                
+            </ul>
+        </section>
+</div>
+{% endblock %}

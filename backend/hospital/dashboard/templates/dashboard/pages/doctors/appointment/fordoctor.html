@@ -32,7 +32,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                        {% for booking in appointment %}
+                        {% if appointment %}
+                          {% for booking in appointment %}
                             <tr>
                                 <td>{{forloop.counter}}</td>
                                 <td>{{booking.fn}} {{ booking.ln }}</td>
@@ -47,7 +48,10 @@
                                     <a href="{% url 'dashboard:patient-details' booking.pk %}"><button class="btn btn-warning btn-sm">Details</button></a>
                                 </td>
                             </tr>
-                        {% endfor %}                    
+                          {% endfor %}   
+                        {% else %}     
+                            <tr><td colspan=4><h4> No appointments yet. </h4></td></tr>
+                        {% endif %}            
                     </tbody>
                   </table>
                 </div>
